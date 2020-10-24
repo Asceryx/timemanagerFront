@@ -1,7 +1,6 @@
 <template>
   <div class="accountcomponent">
-    {{ information.username }}
-    {{ information.email }}
+    <h2>Affichage du compte</h2>
   </div>
 </template>
 
@@ -17,16 +16,16 @@ export default class AccountComponent extends Vue {
     private information: Information;
 
     
-    public viewAccount(): any {};
-    public editAccount(information: Information) : void {};
-    public deleteAccount(): void {};
+    public viewAccount(): any {return}
+    public editAccount(information: Information): void {return}
+    public deleteAccount(): void {return}
 
 
     // CRUD function (Webservices consomation)
-    public get(): any {};
-    public put(information: Information): void {};
-    public post(information: Information ): void {};
-    public delete(): void {};
+    public get(): any {return}
+    public put(information: Information): void {return}
+    public post(information: Information ): void {return}
+    public delete(): void {return}
 }
 </script>
 

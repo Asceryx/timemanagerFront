@@ -1,6 +1,6 @@
 <template>
   <div class="teamcomponent">
-    {{ msg }}
+    <h2>Affichage de l'équipe</h2>
   </div>
 </template>
 

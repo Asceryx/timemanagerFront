@@ -1,19 +1,14 @@
 <template>
   <div class="chartcomponent">
-    {{ msg }}
+    <h3>Affichage du graphique</h3>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ChartComponent extends Vue {
-  
-  @Prop()
-  readonly datachart : string;
-
-
 }
 </script>
 
