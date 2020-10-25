@@ -1,4 +1,5 @@
 # timemanager
+https://travis-ci.com/Asceryx/timemanagerFront.svg?branch=develop
 
 ## Project setup
 ```
