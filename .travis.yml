@@ -1,4 +1,4 @@
-anguage: node_js
+language: node_js
 node_js:
  - "node"
 
@@ -8,8 +8,7 @@ script: npm run build
 
 deploy:
  provider: pages
- skip_cleanup: true
- github_token: $GITHUB_TOKEN
+ cleanup: true
  local_dir: dist
  on:
-   branch: master
+   branch: develop
