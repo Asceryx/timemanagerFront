@@ -1,5 +1,5 @@
 # timemanager
-https://travis-ci.com/Asceryx/timemanagerFront.svg?branch=develop
+[![Build Status](https://travis-ci.com/Asceryx/timemanagerFront.svg?branch=develop)](https://travis-ci.com/Asceryx/timemanagerFront)
 
 ## Project setup
 ```
