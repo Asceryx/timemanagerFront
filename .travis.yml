@@ -6,11 +6,12 @@ cache: npm
 
 script: 
     - npm run build
-    - npm run test:unit
+    - npm run test
 
 deploy:
  provider: pages
  cleanup: true
  local_dir: dist
+ token: a4270b96080b551d9f9e2989784e0255e02757f8
  on:
    branch: develop
