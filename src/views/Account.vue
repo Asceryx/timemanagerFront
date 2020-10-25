@@ -14,6 +14,8 @@ import AccountComponent from '@/components/Account/AccountComponent.vue';
     AccountComponent,
   }
 })
-export default class Account extends Vue {}
+export default class Account extends Vue {
+
+}
 
 </script>

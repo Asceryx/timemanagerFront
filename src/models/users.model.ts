@@ -3,11 +3,7 @@ import { Information } from './account.model';
 
 export interface User {
     id: number;
+    role: string;
     information: Information;
+    teams?: Team[];
 }
-
-export interface Manager extends User {
-    teams: Team[];
-}
-
-export interface GeneralManager extends Manager {}

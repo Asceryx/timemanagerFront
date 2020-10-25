@@ -14,6 +14,7 @@ import WorkingTimesComponent from '@/components/Dashboard/WorkingTimesComponent.
     WorkingTimesComponent,
   }
 })
-export default class Dashboard extends Vue {}
+export default class Dashboard extends Vue {
+}
 
 </script>

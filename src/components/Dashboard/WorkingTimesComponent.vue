@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Manager, User } from '@/models/users.model';
+import { User } from '@/models/users.model';
 import { WorkingTime } from '@/models/worktime.model';
 import { Team } from '@/models/team.model';
 import ChartComponent from './ChartComponent.vue';
@@ -20,7 +20,7 @@ import ChartComponent from './ChartComponent.vue';
 export default class WorkingTimesComponent extends Vue {
 
   @Prop() 
-  readonly user: Manager;
+  readonly user: User;
 
   private workingTime: WorkingTime[];
 
