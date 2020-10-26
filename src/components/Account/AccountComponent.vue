@@ -1,25 +1,24 @@
 <template>
   <div class="accountcomponent">
     <h2>Affichage du compte</h2>
-    <template v-if="!loading">
-      <div>
-        <b-form-input v-model=information.username></b-form-input>
+    <div class="form-data">
+      <div v-if="!loading">
+        <b-form>
+        <account-form-component @on-input="getValue" v-bind:value="information.email"/>
+        </b-form>
+        {{ information.email }}
       </div>
-      <div>
-        <b-form-input v-model=information.email></b-form-input>
+      <div v-else >
+        <b-spinner label="Loading..."/>
       </div>
-    </template>
-    <div v-else >
-      <b-spinner label="Loading..."/>
     </div>
-    <div/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Information } from '@/models/account.model';
-import { User } from '@/models/users.model';
+import AccountFormComponent from './AccountFormComponent.vue';
 import axios from 'axios';
 
 
@@ -29,19 +28,32 @@ const api = axios.create({
 });
 
 
-@Component
+@Component({
+  components: {
+    AccountFormComponent,
+  }
+})
 export default class AccountComponent extends Vue {
-    @Prop() readonly user: User;
 
     private information: Information = {
       username: '',
       email: ''
     };
-    private loading = true;
 
+    private loading = true;
+    
     public editAccount(information: Information): void {return}
     public deleteAccount(): void {return}
 
+
+    // Getter and setter
+    public setEmail(value: string) {
+      this.information.email = value;
+    }
+
+    public getEmail(value: string) {
+      return this.information.email;
+    }
 
     // CRUD function
     public async get(): Promise<Information> {
@@ -68,4 +80,8 @@ export default class AccountComponent extends Vue {
 </script>
 
 <style scoped lang="scss">
+.form-data {
+  width: 25%;
+  margin: 0 auto;
+}
 </style>

@@ -17,5 +17,4 @@ import AccountComponent from '@/components/Account/AccountComponent.vue';
 export default class Account extends Vue {
 
 }
-
 </script>
