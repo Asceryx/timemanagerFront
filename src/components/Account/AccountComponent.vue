@@ -12,6 +12,7 @@
     <div v-else >
       <b-spinner label="Loading..."/>
     </div>
+    <div/>
   </div>
 </template>
 
