@@ -9,7 +9,7 @@ deploy:
   provider: heroku
   api_key:
     secure: wrnxgZ/ihrrKqX/5nO+ifZkISrVQBsLEKLIlCtVc0uT2NWzTsHj5yXMIPbKXmdY9ebKZRrIor0NwQPwqu6AOokbRHgTn0fjbZF8X1z6M47j2Wl02zkgCaWByDKGlhFlhzUrpzl1vBlBqfUa6ldRp5wrdaUicOunH/dT1V/oSmDxe3l8trKlStBRt0gZOtUSpGcwprAhLUKTWeIFK/4R01qmU8SYAQhR153wjfivKZQdgQFUvC3imBNRlYHUlSbRkydo12j9HrHiRd6oJSpUP6+lYOBDf5hebLy3iF70F3vHkt7TRfu4WLr0fk6eFphETp/83q6/Fq8I5KpRqasBdEzK4esoZi6H7dcKosxwEifZKc2dfjAa7sJTFSSRvw8Ls3XUoeWW9CjhXmcRnlO00oXEVfOEOCA3knMF4LVJnLARzy8CeUkumvAje03JE/9bvFjnhsthzGcTJU1hQ0F005GBtd3UmIY0VjbC9eBDVIgggrlnVLtX3AV15BUC5pN3dW/VpRFK1BF1hZ1Krnh0YKPA6fQaVlAIcllMzeunyfA8e6SLa5612VDEY26dQdK8pN4+LkzzbXIGjMGZurgeK1vP/QJJ8q2yQl+cBVRPMtC4UfEz/vuUtxQrJj5w2Hwax+sglg3mJlNJwHWeV7/jvUPNS3MNmNqXtJ1dJNhSlCZE=
-  app: stormy-eyrie-32485
+  app: timemanager
   on:
     repo: Asceryx/timemanagerFront
     branch: develop
