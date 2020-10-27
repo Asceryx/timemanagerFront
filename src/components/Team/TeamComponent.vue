@@ -1,18 +1,22 @@
 <template>
   <div class="teamcomponent">
-    <h2>Affichage de l'équipe</h2>
+    <h2>Gestion de l'équipe</h2>
+    <team-tab-component/>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { User } from '@/models/users.model';
-import { WorkingTime } from '@/models/worktime.model';
+import TeamTabComponent from './TeamTabComponent.vue';
 import { Team } from '@/models/team.model';
 
-@Component
+@Component({
+  components: {
+    TeamTabComponent,
+  }
+})
 export default class TeamComponent extends Vue {
-  @Prop() private AuthUser: User;
 
   public getTeams(): Team[]|any {return}
   public setTeams(teams: Team[]): void {return}

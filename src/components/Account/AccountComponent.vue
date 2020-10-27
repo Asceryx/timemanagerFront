@@ -1,25 +1,48 @@
 <template>
   <div class="accountcomponent">
     <h2>Affichage du compte</h2>
-    <div class="form-data">
       <div v-if="!loading">
-        <b-form>
-        <account-form-component @on-input="getValue" v-bind:value="information.email"/>
+        <b-form @submit="editAccount" @delete="deleteAccount">
+          <div class="form-data">
+            <!-- Modify or show the username -->
+            <account-form-component 
+              @on-input="setUsername" 
+              v-bind:value="information.username"
+              id="input-username"
+              label="Votre nom d'utilisateur :"
+              placeholder="Entrez votre nom d'utilisateur"
+              type="text"
+              :required="true"
+            />
+            <!-- Modify or show the email -->
+            <account-form-component 
+              @on-input="setEmail" 
+              v-bind:value="information.email"
+              id="input-email"
+              label="Votre email :"
+              placeholder="Entrez votre email"
+              type="email"
+              :required="true"
+            />
+            <!-- Another input, same principle... -->
+          </div>
+          <div class=form-sending>
+            <b-button block variant="primary" v-on:click="editAccount">Modifier mes informations</b-button>
+            <b-button block variant="danger" v-on:click="deleteAccount">Supprimer mon compte</b-button>
+          </div>
         </b-form>
-        {{ information.email }}
       </div>
       <div v-else >
         <b-spinner label="Loading..."/>
       </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Information } from '@/models/account.model';
 import AccountFormComponent from './AccountFormComponent.vue';
-import axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 
 const api = axios.create({
@@ -40,27 +63,57 @@ export default class AccountComponent extends Vue {
       email: ''
     };
 
+
     private loading = true;
     
-    public editAccount(information: Information): void {return}
-    public deleteAccount(): void {return}
+    private error = false;
+    private message = "";
+
+    public editAccount(): void {
+      console.log(JSON.stringify(this.information))
+      this.put(this.information)
+      .then((response: AxiosResponse) => this.message = response.data.msg)
+      .catch((error: AxiosError) => {
+        this.error = true;
+        this.message = "Erreur d'envoi, status : " + error.response!.status.toString()
+      })
+    }
+
+    public deleteAccount(): void {
+      console.log("Suppression du compte")
+    }
+
+    
 
 
-    // Getter and setter
+    // setter of email
     public setEmail(value: string) {
+      console.log(value)
       this.information.email = value;
     }
 
-    public getEmail(value: string) {
+    // getter of email
+    public getEmail() {
       return this.information.email;
+    }
+
+    // setter of username
+    public setUsername(value: string) {
+      this.information.username = value
+      console.log(this.information)
+    }
+
+    // getter of username
+    public getUsername() {
+      return this.information.username
     }
 
     // CRUD function
     public async get(): Promise<Information> {
       return await api.get('/account').then((response) => response.data );
     }
-    public put(information: Information): void{
-      api.put('/account', information)
+    public put(information: Information): Promise<AxiosResponse> {
+      return api.put('/account', information).then();
     }
     public post(information: Information ): void {
       api.post('/account', information)
@@ -81,6 +134,11 @@ export default class AccountComponent extends Vue {
 
 <style scoped lang="scss">
 .form-data {
+  width: 25%;
+  margin: 0 auto;
+}
+
+.form-sending {
   width: 25%;
   margin: 0 auto;
 }

@@ -1,17 +1,17 @@
 <template>
     <div class="AccountFormComponent">
         <b-form-group
-        id="input-group-1"
-        label="Email"
-        label-for="input-1"
+        :id="id"
+        :label="label"
+        label-for="input-custom"
         :invalid-feedback="invalidFeedback"
         :state="state"
         >
         <b-form-input
-          id="input-1"
-          type="email"
-          required
-          placeholder="Entrer l'email"
+          id="input-custom"
+          :type="type"
+          :required="required"
+          :placeholder="placeholder"
           v-on:input="onInput"
           trim
           :value="value"
@@ -35,7 +35,14 @@ export default class AccountFormComponent extends Vue {
     @Prop(String)
     readonly label: string;
 
-    private input: string;
+    @Prop(String)
+    private placeholder: string;
+
+    @Prop(String)
+    private type: string;
+
+    @Prop(Boolean)
+    readonly required: boolean;
 
     @Emit()
     onInput() {
