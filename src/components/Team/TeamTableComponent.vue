@@ -19,7 +19,7 @@ import { User } from '@/models/users.model';
 @Component
 export default class TeamTabComponent extends Vue {
     @Prop()
-    private readonly users: User[];
+    private users: User[];
 
     private field = [
         {
@@ -35,6 +35,7 @@ export default class TeamTabComponent extends Vue {
         },
         { key: 'actions', label: 'Actions' }
     ]
+
 }
 
 </script>

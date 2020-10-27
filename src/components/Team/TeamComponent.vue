@@ -1,7 +1,9 @@
 <template>
   <div class="teamcomponent">
     <h2>Gestion de l'équipe</h2>
-    <team-tab-component/>
+    <b-overlay :show="loading" rounded="sm">
+        <team-tab-component v-bind:teams="teams"/>>
+    </b-overlay>
   </div>
 </template>
 
@@ -10,6 +12,12 @@ import { Component, Vue } from 'vue-property-decorator';
 import { User } from '@/models/users.model';
 import TeamTabComponent from './TeamTabComponent.vue';
 import { Team } from '@/models/team.model';
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://demo0330246.mockable.io',
+  timeout: 1000
+});
 
 @Component({
   components: {
@@ -17,23 +25,40 @@ import { Team } from '@/models/team.model';
   }
 })
 export default class TeamComponent extends Vue {
+  
+  private teams: Team[] = [];
 
-  public getTeams(): Team[]|any {return}
-  public setTeams(teams: Team[]): void {return}
+  private loading = true;
 
-  public addTeam(team: Team): void {return}
-  public removeTeam(team: Team): void {return}
+  public setTeams(): void {return}
 
-  public addUserToTeam(user: User, Team: Team): void {return}
-  public removeUserFromTeam(user: User, Team: Team): void {return}
+  public addTeam(): void {return}
+  public removeTeam(): void {return}
+
+  public addUserToTeam(): void {return}
+  public removeUserFromTeam(): void {return}
+
+  
 
   // CRUD function
-  public get(): Team | any {return}
-  public getAll(): Team[] | any {return}
-  public put(team: Team): void {return}
-  public post(team: Team): void {return}
-  public delete(team: Team): void {return} 
+  public async getAll(): Promise<Team[]> {
+    return await api.get('/team').then((response) => response.data );
+  }
+  public async get(user: User): Promise<Team> {
+    return await api.get('/team', { params: { "user_id": user.id } }).then((response) => response.data );
+  }
 
+  public put(): void {return}
+  public post(): void {return}
+  public delete(): void {return} 
+
+  created(): void {
+    this.getAll().then(data => {
+      this.teams = data;
+    }).finally(() => {
+        this.loading = false;
+    });
+  }
 }
 </script>
 
