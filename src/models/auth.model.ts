@@ -12,6 +12,6 @@ export interface AuthRequest {
 
 
 export interface State {
-    status: { loggedIn: boolean },
-    user: AuthResponse | null
+    status: { loggedIn: boolean };
+    user: AuthResponse | null;
 }
