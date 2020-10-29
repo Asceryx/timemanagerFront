@@ -2,7 +2,7 @@
   <div class="teamcomponent">
     <h2>Gestion de l'équipe</h2>
     <b-overlay :show="loading" rounded="sm">
-        <team-tab-component v-bind:teams="teams"/>>
+        <team-tab-component v-bind:teams="teams"/>
     </b-overlay>
   </div>
 </template>
@@ -15,7 +15,7 @@ import { Team } from '@/models/team.model';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://demo0330246.mockable.io',
+  baseURL: 'https://demo0330246.mockable.io',
   timeout: 1000
 });
 
