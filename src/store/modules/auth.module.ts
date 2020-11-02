@@ -1,16 +1,16 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 import AuthService from '@/components/Authentification/utils/auth-services'
-import { AuthRequest, AuthResponse, State } from '@/models/auth.model';
+import { AuthRequest, AuthResponse, AuthState } from '@/models/auth.model';
 
-const user = JSON.parse(localStorage.getItem('user') || '{}');
+const user: AuthResponse = JSON.parse(localStorage.getItem('user') || 'null');
 
-const initialState: State = user
-  ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
+const initialState: AuthState = user
+  ? { status: { loggedIn: true }, userResponse: user }
+  : { status: { loggedIn: false }, userResponse: user };
 
 @Module({ namespaced: true, name: 'auth'})
 class Auth extends VuexModule {
-  public stateAuth: State = initialState
+  public authState: AuthState = initialState;
 
   @Action
   public updateToken(token: string): void {
@@ -56,31 +56,31 @@ class Auth extends VuexModule {
   
 
   @Mutation
-  public loginFailure(state: State): void{
-    state.status.loggedIn = false;
-    state.user = null;
+  public loginFailure(authState: AuthState): void{
+    authState.status.loggedIn = false;
+    authState.userResponse = null;
   }
 
   @Mutation
-  public loginSuccess(state: State, user: AuthResponse): void {
-    state.status.loggedIn = true;
-    state.user = user;
+  public loginSuccess(authState: AuthState, user: AuthResponse): void {
+    authState.status.loggedIn = true;
+    authState.userResponse = user;
   }
 
   @Mutation
-  public logoutSuccess(state: State): void {
-    state.status.loggedIn = false;
-    state.user = null;
+  public logoutSuccess(authState: AuthState): void {
+    authState.status.loggedIn = false;
+    authState.userResponse = null;
   }
 
   @Mutation
-  public registerSuccess(state: State): void {
-    state.status.loggedIn = false;
+  public registerSuccess(authState: AuthState): void {
+    authState.status.loggedIn = false;
   }
 
   @Mutation
-  public registerFailure(state: State): void {
-    state.status.loggedIn = false;
+  public registerFailure(authState: AuthState): void {
+    authState.status.loggedIn = false;
   }
 }
 export default Auth

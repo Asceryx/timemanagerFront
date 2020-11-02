@@ -15,7 +15,7 @@ import { Team } from '@/models/team.model';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://demo0330246.mockable.io',
+  baseURL: 'https://demo0330246.mockable.io', // mock
   timeout: 1000
 });
 
