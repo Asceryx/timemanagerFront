@@ -1,7 +1,6 @@
 <template>
   <div class="workingtimecomponent">
     <h2>Affichage du temps de travail</h2>
-    <chart-component/>
   </div>
 </template>
 

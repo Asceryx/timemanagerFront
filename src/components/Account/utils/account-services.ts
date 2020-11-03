@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 
 
 const api = axios.create({
-    baseURL: "https://fathomless-beyond-55391.herokuapp.com/api/users/",
+    baseURL: "https://fathomless-beyond-55391.herokuapp.com/api",
     headers: {
         'token': localStorage.getItem('token'),
     },
@@ -13,10 +13,10 @@ const api = axios.create({
 class AccountService {
     
     public async get(): Promise<Information> {
-        return await api.get("/users/1").then((response) => response.data);
+        return await api.get("/users").then((response) => response.data);
     }
     public put(information: Information): Promise<AxiosResponse> {
-        return api.put("/users/", information).then();
+        return api.put("/users", information).then();
     }
 
     public post(information: Information): void {

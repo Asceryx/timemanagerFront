@@ -14,7 +14,12 @@ const routes: Array<RouteConfig> = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+    children: [
+      { path: '', component: () => import('../components/Dashboard/WorkingTimesComponent.vue')},
+      { path: 'chart', component: () => import('../components/Dashboard/ChartComponent.vue') },
+      { path: 'workingtimes', component: () => import('../components/Dashboard/WorkingTimesComponent.vue') }
+    ]
   },
   {
     path: '/report',

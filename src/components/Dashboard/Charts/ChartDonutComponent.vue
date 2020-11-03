@@ -1,34 +1,31 @@
 <template>
   <div class="chartmanager">
-    <bar-chart
-      id="bar"
+    <donut-chart
+      id="donut"
       :data="dataValue"
-      xkey="date"
-      ykeys='[ "value" ]'
       resize="true"
       labels='[ "Hours of works" ]'
-      bar-colors='[ "#FF6384" ]'
       grid="true"
       grid-text-weight="bold"
     >
-    </bar-chart>
+    </donut-chart>
   </div>
 </template>
 
 <script lang="ts">
-  import { BarChart } from "vue-morris";
+  import { DonutChart } from "vue-morris";
   import { Component, Vue } from "vue-property-decorator";
 
   @Component({
     components: {
-      BarChart,
+      DonutChart,
     },
   })
-  export default class CharBarComponent extends Vue {
+  export default class ChartDonutComponent extends Vue {
     private dataValue = [
-      { date: "2020-10-12", value: 12 },
-      { date: "2020-10-14", value: 15 },
-      { date: "2020-10-16", value: 23 },
+      { label: "2020-10-12", value: 12 },
+      { label: "2020-10-14", value: 15 },
+      { label: "2020-10-16", value: 23 },
     ];
   }
 </script>

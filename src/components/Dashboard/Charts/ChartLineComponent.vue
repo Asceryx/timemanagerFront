@@ -1,27 +1,27 @@
 <template>
   <div class="chartmanager">
-    <bar-chart
-      id="bar"
+    <line-chart
+      id="line"
       :data="dataValue"
       xkey="date"
-      ykeys='[ "value" ]'
       resize="true"
-      labels='[ "Hours of works" ]'
-      bar-colors='[ "#FF6384" ]'
-      grid="true"
-      grid-text-weight="bold"
+      ykeys='["value"]'
+      labels='["Hours of works"]'
+      line-colors='["#576277"]'
+      hide-hover="auto"
+      xLabels="day"
     >
-    </bar-chart>
+    </line-chart>
   </div>
 </template>
 
 <script lang="ts">
-  import { BarChart } from "vue-morris";
+  import { LineChart } from "vue-morris";
   import { Component, Vue } from "vue-property-decorator";
 
   @Component({
     components: {
-      BarChart,
+      LineChart,
     },
   })
   export default class CharBarComponent extends Vue {
