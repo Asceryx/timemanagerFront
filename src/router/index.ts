@@ -26,6 +26,11 @@ const routes: Array<RouteConfig> = [
     name: 'team',
     component: () => import(/* webpackChunkName: "team" */ '../views/Teams.vue')
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "login" */ '../components/Authentification/Login/Login.vue')
+  },
 ]
 
 const router = new VueRouter({

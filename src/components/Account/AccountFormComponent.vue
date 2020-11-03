@@ -50,12 +50,12 @@ export default class AccountFormComponent extends Vue {
     }
 
     get state() {
-        return this.value.length >= 4
+        return this.value.length >= 3
     }
 
     get invalidFeedback() {
         if (this.value.length > 0) {
-          return 'Enter at least 4 characters.'
+          return 'Enter at least 3 characters.'
         }
         return 'Please enter something.'
     }

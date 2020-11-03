@@ -1,7 +1,7 @@
 export interface AuthResponse {
     accessToken: string;
-    user_id: string;
-    user_role: string;
+    userId: string;
+    userRole: string;
 }
 
 export interface AuthRequest {
@@ -13,5 +13,5 @@ export interface AuthRequest {
 
 export interface AuthState {
     status: { loggedIn: boolean };
-    userResponse: AuthResponse | null;
+    userResponse: AuthResponse;
 }

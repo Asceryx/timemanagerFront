@@ -5,18 +5,13 @@ import { AuthRequest, AuthResponse, AuthState } from '@/models/auth.model';
 const user: AuthResponse = JSON.parse(localStorage.getItem('user') || 'null');
 
 const initialState: AuthState = user
-  ? { status: { loggedIn: true }, userResponse: user }
+  ? { status: { loggedIn: true }, userResponse: { accessToken: '', userId: '', userRole: '' } }
   : { status: { loggedIn: false }, userResponse: user };
 
 @Module({ namespaced: true, name: 'auth'})
 class Auth extends VuexModule {
   public authState: AuthState = initialState;
 
-  @Action
-  public updateToken(token: string): void {
-    this.context.commit('setToken', token)
-  }
-  
   @Action
   public login(user: AuthRequest) {
     return AuthService.login(user).then(
@@ -38,27 +33,10 @@ class Auth extends VuexModule {
   }
 
 
-  @Action
-  register(user: AuthRequest) {
-    return AuthService.register(user).then(
-      response => {
-        this.context.commit('registerSuccess');
-        return Promise.resolve(response.data);
-      },
-      error => {
-        this.context.commit('registerFailure');
-        return Promise.reject(error);
-      }
-    );
-  }
-
-
-  
-
   @Mutation
   public loginFailure(authState: AuthState): void{
     authState.status.loggedIn = false;
-    authState.userResponse = null;
+    authState.userResponse = { accessToken: '', userId: '', userRole: '' };
   }
 
   @Mutation
@@ -70,7 +48,7 @@ class Auth extends VuexModule {
   @Mutation
   public logoutSuccess(authState: AuthState): void {
     authState.status.loggedIn = false;
-    authState.userResponse = null;
+    authState.userResponse = { accessToken: '', userId: '', userRole: '' };
   }
 
   @Mutation

@@ -1,134 +1,112 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <form name="form" @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            v-model="user.username"
-            v-validate="'required'"
+  <div class="login">
+    <div v-if="!loading">
+      <b-form @submit="handleLogin">
+        <div class="form-data">
+          <login-form
+            @on-input="setUsername"
+            v-bind:value="user.username"
+            id="input-username"
+            label="Votre nom d'utilisateur :"
+            placeholder="Entrez votre nom d'utilisateur"
             type="text"
-            class="form-control"
-            name="username"
+            :required="true"
           />
-          <div
-            v-if="errors.has('username')"
-            class="alert alert-danger"
-            role="alert"
-          >Username is required!</div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            v-model="user.password"
-            v-validate="'required'"
-            type="password"
-            class="form-control"
-            name="password"
+
+          <login-form
+            @on-input="setToken"
+            v-bind:value="user.hash"
+            id="input-token"
+            label="Entrez le token fourni par l'admin"
+            placeholder="token"
+            type="text"
+            :required="true"
           />
-          <div
-            v-if="errors.has('password')"
-            class="alert alert-danger"
-            role="alert"
-          >Password is required!</div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
-          </button>
+
+        <div class="form-sending">
+          <b-button type="submit" variant="primary">
+            Envoyer
+          </b-button>
         </div>
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
-        </div>
-      </form>
+      </b-form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { AuthRequest, AuthResponse, AuthState } from '@/models/auth.model';
-import { namespace } from 'vuex-class'
+  import { Component, Vue } from "vue-property-decorator";
+  import { AuthRequest, AuthState } from "@/models/auth.model";
+  import LoginForm from "./LoginForm.vue";
+  import { namespace } from "vuex-class";
 
+  const auth = namespace("Auth");
 
-const auth = namespace('auth')
+  @Component({
+    components: {
+      LoginForm,
+    },
+  })
+  export default class Login extends Vue {
+    private user: AuthRequest = { username: "", hash: "", email: "" };
 
-@Component
-export default class Login extends Vue {
+    private loading = false;
 
-  private user: AuthRequest;
+    private message = "";
 
-  private loading = false;
-  
-  private message = '';
+    @auth.State
+    public authState: AuthState;
 
-  @auth.State
-  public authState: AuthState;
-  
+    @auth.Action('updateToken')
+    public updateToken: (newToken: string) => void;
 
-  get loggedIn() {
+    get loggedIn() {
       return this.authState.status.loggedIn;
-  }
-
-
-  created() {
-    if (this.loggedIn) {
-      this.$router.push('/account');
     }
-  }
-  
-  public handleLogin() {
+
+    created() {
+      if (this.loggedIn) {
+        this.$router.push("/account");
+      }
+    }
+
+    public handleLogin() {
       this.loading = true;
       if (this.user.username && this.user.hash) {
-          this.$store.dispatch('auth/login', this.user).then(
-              () => {
-                  this.$router.push('/account');
-                  },
-                  error => {
-                      this.loading = false;
-                      this.message =
-                      (error.response && error.response.data) ||
-                      error.message ||
-                      error.toString();
-                      });
-        }
-      
+        this.authState.status.loggedIn = true
+      }
     }
-}
+
+    // setter of email
+    public setToken(value: string) {
+      localStorage.setItem('token', value);
+    }
+
+    // getter of email
+    public getToken() {
+      return this.user.hash;
+    }
+
+    // setter of username
+    public setUsername(value: string) {
+      this.user.username = value;
+    }
+
+    // getter of username
+    public getUsername() {
+      return this.user.username;
+    }
+  }
 </script>
 
 <style scoped>
-label {
-  display: block;
-  margin-top: 10px;
-}
+  .form-data {
+    width: 25%;
+    margin: 0 auto;
+  }
 
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-}
+  .form-sending {
+    width: 25%;
+    margin: 0 auto;
+  }
 </style>

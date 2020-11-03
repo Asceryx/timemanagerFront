@@ -24,6 +24,17 @@
             type="email"
             :required="true"
           />
+
+          <!-- Modify or show the token -->
+          <account-form-component
+            @on-input="setToken"
+            v-bind:value="getToken"
+            id="input-token"
+            label="Votre token :"
+            placeholder="Entrez votre token"
+            type="text"
+            :required="true"
+          />
           <!-- Another input, same principle... -->
         </div>
         <div class="form-sending">
@@ -73,6 +84,9 @@
 
     private message = "";
 
+    @auth.Action('updateToken')
+    public updateToken: (newToken: string) => void;
+
     public editAccount(): void {
       console.log(JSON.stringify(this.information));
       AccountService.put(this.information)
@@ -116,6 +130,16 @@
     public getUsername() {
       return this.information.username;
     }
+
+    // setter of token
+    public setToken(value: string) {
+      this.updateToken(value);
+    }
+
+    get getToken() {
+      return localStorage.getItem('token') || '';
+    }
+
 
     created(): void {
       AccountService.get()
