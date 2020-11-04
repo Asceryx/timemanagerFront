@@ -2,22 +2,30 @@
   <div class="teamcomponent">
     <h2>Gestion de l'équipe</h2>
     <b-overlay :show="loading" rounded="sm">
-        <team-tab-component v-bind:teams="teams"/>
+        <team-tab-component v-bind:teams="teams" @on-validate="setTeams"/>
     </b-overlay>
+
+    <b-button block variant="success" class="team-validate">Validate</b-button>
+
+    <b-modal id="modal-1" title="BootstrapVue">
+      <p class="my-4">Select a user</p>
+      <b-form-select
+        v-model="modalSelected"
+        :options="users"
+        text-field="information.username"
+      >
+      </b-form-select>
+    </b-modal>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { User } from '@/models/users.model';
 import TeamTabComponent from './TeamTabComponent.vue';
 import { Team } from '@/models/team.model';
-import axios from 'axios';
+import TeamService from "./utils/team-services";
+import { User } from '@/models/users.model';
 
-const api = axios.create({
-  baseURL: 'https://demo0330246.mockable.io', // mock
-  timeout: 1000
-});
 
 @Component({
   components: {
@@ -28,36 +36,32 @@ export default class TeamComponent extends Vue {
   
   private teams: Team[] = [];
 
+  private users: User[];
+
   private loading = true;
 
-  public setTeams(): void {return}
+  private modalSelected = '';
 
-  public addTeam(): void {return}
-  public removeTeam(): void {return}
+  public setTeams(teams: Team[]): void {
+    this.teams = teams
+  }
 
-  public addUserToTeam(): void {return}
-  public removeUserFromTeam(): void {return}
+  public getAllUser() {
+    this.users = [ {id: 1, role: "1", information: { username: 'Toto', email: 'Toto'} } ]
+  }
 
+  public postTeam() {
+    TeamService.post(this.teams[0])
+  }
   
-
-  // CRUD function
-  public async getAll(): Promise<Team[]> {
-    return await api.get('/team').then((response) => response.data );
-  }
-  public async get(user: User): Promise<Team> {
-    return await api.get('/team', { params: { "user_id": user.id } }).then((response) => response.data );
-  }
-
-  public put(): void {return}
-  public post(): void {return}
-  public delete(): void {return} 
-
   created(): void {
-    this.getAll().then(data => {
+    TeamService.getAll().then(data => {
       this.teams = data;
     }).finally(() => {
         this.loading = false;
     });
+
+    this.getAllUser()
   }
 }
 </script>
