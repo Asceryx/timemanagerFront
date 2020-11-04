@@ -17,7 +17,10 @@
       <router-link to="/team" v-if= "affichageA">Team</router-link> |
       <router-link to="/login">Login</router-link> |
       <router-link to="/admin" v-if= "affichageB">Admin</router-link>
+<<<<<<< HEAD
 >>>>>>> e55369a (Modifications)
+=======
+>>>>>>> 380b74ca90c9b6bb00892cabc3bfe018f1ab18ef
     </div>
     <router-view />
   </div>
