@@ -5,7 +5,6 @@ import { AuthResponse } from '@/models/auth.model';
 const user: AuthResponse = JSON.parse(localStorage.getItem('user') || 'null');
 
 
-
 @Module({ namespaced: true, name: 'auth'})
 class Auth extends VuexModule {
   loggedIn = false;
