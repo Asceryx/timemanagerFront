@@ -65,7 +65,6 @@ const router = new VueRouter({
 
 const token = localStorage.getItem('token') || ''
 const role = localStorage.getItem('role') || ''
-console.log(role)
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
@@ -83,8 +82,19 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresManager)) {
     /*les routes réservées au manager*/ 
     if (role == "1" || role == '2') {
+      if (token != '') {
         next();
+      }
+      else {
+        router.push("/login");
+      }
     }
+    else {
+      router.push("/login");
+    }
+  }
+  else {
+    next();
   }
 });
 export default router;
