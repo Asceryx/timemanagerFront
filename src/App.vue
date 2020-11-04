@@ -4,14 +4,23 @@
       <router-link to="/account">Account</router-link> |
       <router-link to="/dashboard">Dashboard</router-link> |
       <router-link to="/report">Report</router-link> |
-      <router-link to="/team">Team</router-link> |
+      <router-link to="/team" v-if= "affichage">Team</router-link> |
       <router-link to="/login">Login</router-link> |
     </div>
-    
     <router-view/>
   </div>
 </template>
-
+<script>
+import store from '@/store/index'
+export default {
+  name: 'user',
+  data: function() {
+    return{
+       affichage: store.state.Auth.authState.userResponse.userRole == "manager"
+      }
+  }
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

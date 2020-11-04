@@ -15,12 +15,13 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+    meta: { requiresAuth: true },
     children: [
       { path: '', component: () => import('../components/Dashboard/WorkingTimesComponent.vue')},
       { path: 'chart', component: () => import('../components/Dashboard/ChartComponent.vue') },
       { path: 'workingtimes', component: () => import('../components/Dashboard/WorkingTimesComponent.vue') }
-    ],
-    meta: { requiresAuth: true }
+    ]
+    
 
   },
   {
@@ -58,9 +59,9 @@ router.beforeEach((to,from,next)=>{
 
   }
 
-  if (to.matched.some(record => record.meta.requiresManager)){
+  if (to.matched.some(record => record.meta.requiresManager)){/*les routes réservées au manager*/
     if(store.state.Auth.authState.status.loggedIn){
-      if(store.state.Auth.authState.userResponse.userRole == 'manager') {
+      if(store.state.Auth.authState.userResponse.userRole !== null && store.state.Auth.authState.userResponse.userRole == "manager" ) {
         next();
       }
       else{
