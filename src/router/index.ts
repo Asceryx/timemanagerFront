@@ -22,7 +22,7 @@ const routes: Array<RouteConfig> = [
       { path: 'workingtimes', component: () => import('../components/Dashboard/WorkingTimesComponent.vue') }
     ]
     
-/*commentaire 2*/
+/*commentaire 44*/
   },
   {
     path: '/report',
