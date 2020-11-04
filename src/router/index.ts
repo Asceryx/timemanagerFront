@@ -22,11 +22,6 @@ const routes: Array<RouteConfig> = [
       { path: 'chart', component: () => import('../components/Dashboard/ChartComponent.vue') },
       { path: 'workingtimes', component: () => import('../components/Dashboard/WorkingTimesComponent.vue') }
     ]
-    
-<<<<<<< HEAD
-=======
-/*commentaire 2*/
->>>>>>> 60c3fcf (inital commit)
   },
   {
     path: '/report',
