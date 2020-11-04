@@ -4,14 +4,15 @@ import { AuthRequest, AuthResponse, AuthState } from '@/models/auth.model';
 
 const user: AuthResponse = JSON.parse(localStorage.getItem('user') || 'null');
 
-const initialState: AuthState = user
+
+const initialStateAuth: AuthState = user
   ? { status: { loggedIn: true }, userResponse: { accessToken: '', userId: '', userRole: '' } }
-  : { status: { loggedIn: false }, userResponse: user };
+  : { status: { loggedIn: false }, userResponse: { accessToken: '', userId: '', userRole: 'manager' }};
 
 @Module({ namespaced: true, name: 'auth'})
 class Auth extends VuexModule {
-  public authState: AuthState = initialState;
-
+  public authState: AuthState = initialStateAuth;
+  
   @Action
   public login(user: AuthRequest) {
     return AuthService.login(user).then(
@@ -59,6 +60,7 @@ class Auth extends VuexModule {
   @Mutation
   public registerFailure(authState: AuthState): void {
     authState.status.loggedIn = false;
+  
   }
 }
-export default Auth
+export default Auth;
