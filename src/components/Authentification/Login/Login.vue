@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div v-if="!loading">
+    <div v-if="!isloggedIn">
       <b-form @submit="handleLogin">
         <div class="form-data">
           <login-form
@@ -31,16 +31,25 @@
         </div>
       </b-form>
     </div>
+    <div v-else>
+      <b-form @submit="handleLogout">
+      <b-button type="submit" variant="danger">logout</b-button>
+      </b-form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator";
-  import { AuthRequest, AuthState } from "@/models/auth.model";
+  import { AuthRequest } from "@/models/auth.model";
   import LoginForm from "./LoginForm.vue";
-  import { namespace } from "vuex-class";
 
-  const auth = namespace("Auth");
+
+  import { getModule } from 'vuex-module-decorators';
+  import Auth from '@/store/modules/auth.module'
+import store from '@/store';
+
+
 
   @Component({
     components: {
@@ -54,27 +63,26 @@
 
     private message = "";
 
-    @auth.State
-    public authState: AuthState;
+    private isloggedIn = false;
 
-    @auth.Action('updateToken')
-    public updateToken: (newToken: string) => void;
-
-    get loggedIn() {
-      return this.authState.status.loggedIn;
-    }
+  
 
     created() {
-      if (this.loggedIn) {
-        this.$router.push("/account");
-      }
+      const token = localStorage.getItem('token') || ''
+      this.isloggedIn = token != '';
     }
 
     public handleLogin() {
-      this.loading = true;
+      const StoreloggedIn = getModule(Auth, store);
+      StoreloggedIn.login()
       if (this.user.username && this.user.hash) {
-        this.authState.status.loggedIn = true
+        console.log("handlelogin")
+        
       }
+    }
+
+    public handleLogout() {
+      localStorage.removeItem('token');
     }
 
     // setter of email

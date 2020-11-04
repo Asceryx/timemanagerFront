@@ -1,45 +1,57 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/account">Account</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link> |
-      <router-link to="/report">Report</router-link> |
-      <router-link to="/team" v-if= "affichage">Team</router-link> |
-      <router-link to="/login">Login</router-link> |
+      <div v-if="isAuthenticate">
+        <router-link to="/account">Account</router-link> |
+        <router-link to="/dashboard">Dashboard</router-link> |
+        <router-link to="/report">Report</router-link> |
+        <router-link to="/team" v-if="isManager">Team |</router-link>
+        <router-link to="/login">Logout |</router-link>
+      </div>
+      <div v-else><router-link to="/login">Login</router-link></div>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
-<script>
-import store from '@/store/index'
-export default {
-  name: 'user',
-  data: function() {
-    return{
-       affichage: store.state.Auth.authState.userResponse.userRole == "manager"
-      }
-  }
-}
-</script>
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+  import { getModule } from "vuex-module-decorators";
+  import Auth from "@/store/modules/auth.module";
+  import { Component, Vue } from "vue-property-decorator";
 
-#nav {
-  padding: 30px;
+  @Component
+  export default class App extends Vue {
+    private moduleAuth = getModule(Auth, this.$store);
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    get isManager() {
+      return this.moduleAuth.isManager;
+    }
 
-    &.router-link-exact-active {
-      color: #42b983;
+    get isAuthenticate() {
+      const token = localStorage.getItem('token') || ''
+      return token != '';
     }
   }
-}
+</script>
+
+<style lang="scss">
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+
+  #nav {
+    padding: 30px;
+
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+
+      &.router-link-exact-active {
+        color: #42b983;
+      }
+    }
+  }
 </style>

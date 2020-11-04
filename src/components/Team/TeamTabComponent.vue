@@ -58,18 +58,18 @@
             Create a new team by using the <b>+</b> button above.
           </div>
         </template>
+
+        <b-modal id="modal" title="Add a user">
+          <p class="my-4">Select a user</p>
+          <b-form-select
+            v-model="modalSelected"
+            :options="users"
+            text-field="information.username"
+          >
+          </b-form-select>
+        </b-modal>
       </b-tabs>
     </b-card>
-
-    <b-modal id="modal-1" title="BootstrapVue">
-      <p class="my-4">Select a user</p>
-      <b-form-select
-        v-model="modalSelected"
-        :options="users"
-        text-field="information.username"
-      >
-      </b-form-select>
-    </b-modal>
   </div>
 </template>
 
@@ -98,6 +98,8 @@
 
     private editTeams: Team[];
 
+    private modalSelected = "";
+
     @Watch("teams")
     public updateTeam() {
       this.teamsToTab();
@@ -121,7 +123,7 @@
         },
       });
       this.editTeams = this.tabToTeam();
-      this.onValidate()
+      this.onValidate();
     }
 
     public removeTeam(index: number): void {
@@ -131,7 +133,7 @@
         }
       }
       this.editTeams = this.tabToTeam();
-      this.onValidate()
+      this.onValidate();
     }
 
     public teamsToTab() {
@@ -148,6 +150,8 @@
       }
       return newTeam;
     }
+
+
 
     public created() {
       this.teamsToTab();

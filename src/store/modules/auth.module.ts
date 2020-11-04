@@ -1,30 +1,29 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 import AuthService from '@/components/Authentification/utils/auth-services'
-import { AuthRequest, AuthResponse, AuthState } from '@/models/auth.model';
+import { AuthResponse } from '@/models/auth.model';
 
 const user: AuthResponse = JSON.parse(localStorage.getItem('user') || 'null');
 
 
-const initialStateAuth: AuthState = user
-  ? { status: { loggedIn: true }, userResponse: { accessToken: '', userId: '', userRole: '' } }
-  : { status: { loggedIn: false }, userResponse: { accessToken: '', userId: '', userRole: 'manager' }};
 
 @Module({ namespaced: true, name: 'auth'})
 class Auth extends VuexModule {
-  public authState: AuthState = initialStateAuth;
-  
+  loggedIn = false;
+  user: AuthResponse = user;
+
+
+  get isLoggedIn() {
+    return this.loggedIn;
+  }
+
+  get isManager() {
+    return user.userRole == 'Manager';
+  }
+
   @Action
-  public login(user: AuthRequest) {
-    return AuthService.login(user).then(
-      user => {
-        this.context.commit('loginSuccess', user);
-        return Promise.resolve(user);
-      },
-      error => {
-        this.context.commit('loginFailure');
-        return Promise.reject(error);
-      }
-    );
+  public login() {
+    this.loginSuccess()
+  
   }
 
   @Action
@@ -35,31 +34,30 @@ class Auth extends VuexModule {
 
 
   @Mutation
-  public loginFailure(authState: AuthState): void{
-    authState.status.loggedIn = false;
-    authState.userResponse = { accessToken: '', userId: '', userRole: '' };
+  public loginFailure(): void{
+    this.loggedIn = false;
+    this.user =  { accessToken: '', userId: '', userRole: '' };
   }
 
   @Mutation
-  public loginSuccess(authState: AuthState, user: AuthResponse): void {
-    authState.status.loggedIn = true;
-    authState.userResponse = user;
+  public loginSuccess(): void {
+    this.loggedIn = true;
   }
 
   @Mutation
-  public logoutSuccess(authState: AuthState): void {
-    authState.status.loggedIn = false;
-    authState.userResponse = { accessToken: '', userId: '', userRole: '' };
+  public logoutSuccess(): void {
+    this.loggedIn  = false;
+    this.user =  { accessToken: '', userId: '', userRole: '' };
   }
 
   @Mutation
-  public registerSuccess(authState: AuthState): void {
-    authState.status.loggedIn = false;
+  public registerSuccess(): void {
+    this.loggedIn = false;
   }
 
   @Mutation
-  public registerFailure(authState: AuthState): void {
-    authState.status.loggedIn = false;
+  public registerFailure(): void {
+    this.loggedIn  = false;
   
   }
 }
