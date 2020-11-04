@@ -18,6 +18,7 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
     meta: { requiresAuth: true },
     children: [
+<<<<<<< HEAD
       {
         path: "",
         component: () =>
@@ -33,6 +34,13 @@ const routes: Array<RouteConfig> = [
           import("../components/Dashboard/WorkingTimesComponent.vue"),
       },
     ],
+=======
+      { path: '', component: () => import('../components/Dashboard/WorkingTimesComponent.vue')},
+      { path: 'chart', component: () => import('../components/Dashboard/ChartComponent.vue') },
+      { path: 'workingtimes', component: () => import('../components/Dashboard/WorkingTimesComponent.vue') }
+    ]
+    
+>>>>>>> e55369a (Modifications)
   },
   {
     path: "/report",
@@ -42,11 +50,18 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true },
   },
   {
+<<<<<<< HEAD
     path: "/team",
     name: "team",
     component: () =>
       import(/* webpackChunkName: "team" */ "../views/Teams.vue"),
     meta: { requiresManager: true } /*on protège la route*/,
+=======
+    path: '/team',
+    name: 'team',
+    component: () => import(/* webpackChunkName: "team" */ '../views/Teams.vue'),
+    meta: { requiresManager: true }
+>>>>>>> e55369a (Modifications)
   },
   {
     path: "/login",
@@ -56,7 +71,17 @@ const routes: Array<RouteConfig> = [
         /* webpackChunkName: "login" */ "../components/Authentification/Login/Login.vue"
       ),
   },
+<<<<<<< HEAD
 ];
+=======
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue'),
+    meta: { requiresAdmin: true }
+  }
+]
+>>>>>>> e55369a (Modifications)
 
 const router = new VueRouter({
   mode: "history",
@@ -93,7 +118,25 @@ router.beforeEach((to, from, next) => {
       router.push("/login");
     }
   }
+<<<<<<< HEAD
   else {
+=======
+  if (to.matched.some(record => record.meta.requiresAdmin)){/*les routes réservées au manager*/
+    if(store.state.Auth.authState.status.loggedIn){
+      if(store.state.Auth.authState.userResponse.userRole !== null && store.state.Auth.authState.userResponse.userRole == "admin" ) {
+        next();
+      }
+      else{
+          router.push('/login')
+      }
+    }
+    else{
+      router.push('/login') 
+    }
+
+  }
+  else{
+>>>>>>> e55369a (Modifications)
     next();
   }
 });

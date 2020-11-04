@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
+<<<<<<< HEAD
       <div v-if="isAuthenticate">
         <router-link to="/account">Account</router-link> |
         <router-link to="/dashboard">Dashboard</router-link> |
@@ -9,10 +10,19 @@
         <router-link to="/login">Logout |</router-link>
       </div>
       <div v-else><router-link to="/login">Login</router-link></div>
+=======
+      <router-link to="/account">Account</router-link> |
+      <router-link to="/dashboard">Dashboard</router-link> |
+      <router-link to="/report">Report</router-link> |
+      <router-link to="/team" v-if= "affichageA">Team</router-link> |
+      <router-link to="/login">Login</router-link> |
+      <router-link to="/admin" v-if= "affichageB">Admin</router-link>
+>>>>>>> e55369a (Modifications)
     </div>
     <router-view />
   </div>
 </template>
+<<<<<<< HEAD
 <script lang="ts">
   import { getModule } from "vuex-module-decorators";
   import Auth from "@/store/modules/auth.module";
@@ -36,6 +46,17 @@
       const token = localStorage.getItem('token') || ''
       return token != '';
     }
+=======
+<script>
+import store from '@/store/index'
+export default {
+  name: 'user',
+  data: function() {
+    return{
+       affichageA: store.state.Auth.authState.userResponse.userRole == "manager",
+       affichageB: store.state.Auth.authState.userResponse.userRole == "admin"
+      }
+>>>>>>> e55369a (Modifications)
   }
 </script>
 
