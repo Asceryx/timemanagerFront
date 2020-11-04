@@ -9,7 +9,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/account',
     name: 'account',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Account.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Account.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/dashboard',
@@ -22,7 +23,6 @@ const routes: Array<RouteConfig> = [
       { path: 'workingtimes', component: () => import('../components/Dashboard/WorkingTimesComponent.vue') }
     ]
     
-/*commentaire 44*/
   },
   {
     path: '/report',
@@ -34,13 +34,19 @@ const routes: Array<RouteConfig> = [
     path: '/team',
     name: 'team',
     component: () => import(/* webpackChunkName: "team" */ '../views/Teams.vue'),
-    meta: { requiresManager: true }/*on protège la route*/
+    meta: { requiresManager: true }
   },
   {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../components/Authentification/Login/Login.vue')
   },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue'),
+    meta: { requiresAdmin: true }
+  }
 ]
 
 const router = new VueRouter({
@@ -62,6 +68,20 @@ router.beforeEach((to,from,next)=>{
   if (to.matched.some(record => record.meta.requiresManager)){/*les routes réservées au manager*/
     if(store.state.Auth.authState.status.loggedIn){
       if(store.state.Auth.authState.userResponse.userRole !== null && store.state.Auth.authState.userResponse.userRole == "manager" ) {
+        next();
+      }
+      else{
+          router.push('/login')
+      }
+    }
+    else{
+      router.push('/login') 
+    }
+
+  }
+  if (to.matched.some(record => record.meta.requiresAdmin)){/*les routes réservées au manager*/
+    if(store.state.Auth.authState.status.loggedIn){
+      if(store.state.Auth.authState.userResponse.userRole !== null && store.state.Auth.authState.userResponse.userRole == "admin" ) {
         next();
       }
       else{

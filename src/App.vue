@@ -4,8 +4,9 @@
       <router-link to="/account">Account</router-link> |
       <router-link to="/dashboard">Dashboard</router-link> |
       <router-link to="/report">Report</router-link> |
-      <router-link to="/team" v-if= "affichage">Team</router-link> |
+      <router-link to="/team" v-if= "affichageA">Team</router-link> |
       <router-link to="/login">Login</router-link> |
+      <router-link to="/admin" v-if= "affichageB">Admin</router-link>
     </div>
     <router-view/>
   </div>
@@ -16,7 +17,8 @@ export default {
   name: 'user',
   data: function() {
     return{
-       affichage: store.state.Auth.authState.userResponse.userRole == "manager"
+       affichageA: store.state.Auth.authState.userResponse.userRole == "manager",
+       affichageB: store.state.Auth.authState.userResponse.userRole == "admin"
       }
   }
 }
