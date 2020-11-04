@@ -7,7 +7,7 @@ const user: AuthResponse = JSON.parse(localStorage.getItem('user') || 'null');
 
 const initialStateAuth: AuthState = user
   ? { status: { loggedIn: true }, userResponse: { accessToken: '', userId: '', userRole: '' } }
-  : { status: { loggedIn: false }, userResponse: { accessToken: '', userId: '', userRole: 'manager' }};
+  : { status: { loggedIn: false }, userResponse: { accessToken: '', userId: '', userRole: '' }};
 
 @Module({ namespaced: true, name: 'auth'})
 class Auth extends VuexModule {
