@@ -17,7 +17,7 @@ class Auth extends VuexModule {
   }
 
   get isManager() {
-    return user.userRole == 'Manager';
+    return user.role == 1 || user.role == 2;
   }
 
   @Action
@@ -36,7 +36,7 @@ class Auth extends VuexModule {
   @Mutation
   public loginFailure(): void{
     this.loggedIn = false;
-    this.user =  { accessToken: '', userId: '', userRole: '' };
+    this.user =  { id: 0, role: 0 };
   }
 
   @Mutation
@@ -47,7 +47,7 @@ class Auth extends VuexModule {
   @Mutation
   public logoutSuccess(): void {
     this.loggedIn  = false;
-    this.user =  { accessToken: '', userId: '', userRole: '' };
+    this.user =  { id: 0, role: 0 };
   }
 
   @Mutation

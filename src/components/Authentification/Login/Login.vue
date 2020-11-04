@@ -33,7 +33,7 @@
     </div>
     <div v-else>
       <b-form @submit="handleLogout">
-      <b-button type="submit" variant="danger">logout</b-button>
+        <b-button type="submit" variant="danger">logout</b-button>
       </b-form>
     </div>
   </div>
@@ -41,15 +41,9 @@
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator";
-  import { AuthRequest } from "@/models/auth.model";
+  import { AuthRequest, AuthResponse } from "@/models/auth.model";
   import LoginForm from "./LoginForm.vue";
-
-
-  import { getModule } from 'vuex-module-decorators';
-  import Auth from '@/store/modules/auth.module'
-import store from '@/store';
-
-
+  import UserService from "../utils/user-services";
 
   @Component({
     components: {
@@ -65,29 +59,36 @@ import store from '@/store';
 
     private isloggedIn = false;
 
-  
+    private userData: AuthResponse = { id: 0, role: 2};
 
     created() {
-      const token = localStorage.getItem('token') || ''
-      this.isloggedIn = token != '';
-    }
-
-    public handleLogin() {
-      const StoreloggedIn = getModule(Auth, store);
-      StoreloggedIn.login()
-      if (this.user.username && this.user.hash) {
-        console.log("handlelogin")
+      const token = localStorage.getItem("token") || "";
+      this.isloggedIn = token != "";
+      console.log("Created")
+      if (this.isloggedIn) {
+         UserService.get().then((data) => {
+           console.log(data)
+          this.userData = data;
+        }).finally(() =>
+          localStorage.setItem("role", this.userData.role.toString())
+        )
         
       }
     }
 
+    public handleLogin() {
+      console.log("handleLogin")
+     
+    }
+
     public handleLogout() {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
     }
 
     // setter of email
     public setToken(value: string) {
-      localStorage.setItem('token', value);
+      localStorage.setItem("token", value);
     }
 
     // getter of email

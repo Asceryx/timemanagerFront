@@ -1,23 +1,16 @@
-import axios from 'axios';
-import authHeader from './auth-header';
+import { AuthResponse } from "@/models/auth.model";
+import axios from "axios";
 
-const API_URL = 'http://localhost:8080/api/test/';
+const api = axios.create({
+  baseURL: "https://fathomless-beyond-55391.herokuapp.com/api",
+  headers: {
+    token: localStorage.getItem("token"),
+  },
+});
 
 class UserService {
-  getPublicContent() {
-    return axios.get(API_URL + 'all');
-  }
-
-  getUserBoard() {
-    return axios.get(API_URL + 'user', { headers: authHeader() });
-  }
-
-  getModeratorBoard() {
-    return axios.get(API_URL + 'mod', { headers: authHeader() });
-  }
-
-  getAdminBoard() {
-    return axios.get(API_URL + 'admin', { headers: authHeader() });
+  public get(): Promise<AuthResponse> {
+    return api.get("/users").then((response) => response.data);
   }
 }
 

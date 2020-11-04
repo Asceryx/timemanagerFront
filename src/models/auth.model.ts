@@ -1,7 +1,6 @@
 export interface AuthResponse {
-    accessToken: string;
-    userId: string;
-    userRole: string;
+    id: number;
+    role: number;
 }
 
 export interface AuthRequest {

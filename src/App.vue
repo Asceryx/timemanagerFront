@@ -5,7 +5,7 @@
         <router-link to="/account">Account</router-link> |
         <router-link to="/dashboard">Dashboard</router-link> |
         <router-link to="/report">Report</router-link> |
-        <router-link to="/team" v-if="isManager">Team |</router-link>
+        <router-link to="/team" v-if="isManager || isAdmin">Team  </router-link> |
         <router-link to="/login">Logout |</router-link>
       </div>
       <div v-else><router-link to="/login">Login</router-link></div>
@@ -23,7 +23,13 @@
     private moduleAuth = getModule(Auth, this.$store);
 
     get isManager() {
-      return this.moduleAuth.isManager;
+      const role = localStorage.getItem('role') || ''
+      return role == "1";
+    }
+
+    get isAdmin() {
+      const role = localStorage.getItem('role') || ''
+      return role == "2";
     }
 
     get isAuthenticate() {
